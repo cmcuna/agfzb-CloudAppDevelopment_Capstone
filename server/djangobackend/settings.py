@@ -27,7 +27,7 @@ DEBUG = True
 
 APPEND_SLASH = True
 
-ALLOWED_HOSTS = ["localhost"]
+ALLOWED_HOSTS = ["localhost", '127.0.0.1', 'yolo.us-south.cf.appdomain.cloud']
 
 
 # Application definition
@@ -121,7 +121,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+STATICFILES_DIRS = [
+    "C:/Users/cmcun/anaconda3/lib/site-packages/django/contrib/admin/static",
+    "C:/Users/cmcun/OneDrive/Documents/IBM_FullStack_Developer_Program/10_Full_Stack_Application_Development_Project/Module_1_Application_Static_Pages/agfzb-CloudAppDevelopment_Capstone-master/server/static/images"
+]
+
+###Format below uses backslashes, do we need to use forward slashes?###
+# STATICFILES_DIRS = [
+#    "C:\Users\cmcun\anaconda3\lib\site-packages\django\contrib\admin\static",
+#    "C:\Users\cmcun\OneDrive\Documents\IBM_FullStack_Developer_Program\10_Full_Stack_Application_Development_Project\Module_1_Application_Static_Pages\agfzb-CloudAppDevelopment_Capstone-master\server\static\images"
+# ]
+
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-MEDIA_ROOT = os.path.join(STATIC_ROOT, 'media')
-MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(STATIC_ROOT, 'images')
+MEDIA_URL = '/images/'

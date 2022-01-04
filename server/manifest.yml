@@ -1,11 +1,11 @@
   applications:
-  - name: djangoapp
+  - name: djangoapp-cmcuna
     routes:
-      - route: $HOST.$DOMAIN
+      - route: yolo.us-south.cf.appdomain.cloud
     memory: 128M
     buildpack: python_buildpack
-  - name: djangoapp-nginx
+  - name: djangoapp-nginx-cmcuna
     routes:
-      - route: $HOST.$DOMAIN/static
+      - route: yolo.us-south.cf.appdomain.cloud/static
     memory: 128M
     buildpack: staticfile_buildpack
