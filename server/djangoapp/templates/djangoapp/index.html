@@ -4,4 +4,17 @@
 
 <p>Main page</p>
 
+<!-- which 'message' is the referring to? error message? -->
+{% if message %}
+    <div>{{ message }}</div>
+{% endif %}
+
+<ul>
+    {% for carmake in carmakelist %}
+        <li>{{ carmake }}</li>
+    {% empty %}
+        <li>No Comments.</li>
+    {% endfor %}
+</ul>
+
 {% endblock %}

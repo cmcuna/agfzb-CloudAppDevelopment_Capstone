@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 # from .models import related models
+from .models import User, CarMake, CarModel
 # from .restapis import related methods
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
@@ -19,9 +20,29 @@ logger = logging.getLogger(__name__)
 
 # Update the `get_dealerships` view to render the index page with a list of dealerships
 def get_dealerships(request):
+    carmakelist = CarMake.objects.all() #variable unused
+    carmodellist = CarModel.objects.all() #variable unused
     context = {}
-    if request.method == "GET":
-        return render(request, 'djangoapp/index.html', context)
+    if request.method == "POST":
+        carmakename = request.POST["carmakename"]
+        carmakedescription = request.POST["carmakedescription"]
+
+        #attemtp to create new entry for car make and car description
+        try:
+            newcarmake = CarMake.objects.create(carMakeName=carmakename, carDescription=carmakedescription)
+            newcarmake.save()
+        except IntegrityError:
+            return render(request, "djangoapp/registration.html", {
+                "message": "Error creating car make entry."
+            })
+        return HttpResponseRedirect(reverse("index"))
+    else:
+        return render(request, 'djangoapp/index.html', {
+            #context
+            "carmakelist": carmakelist
+        })
+        #return render(request, 'djangoapp/registration.html')
+        
 
 # Create an `about` view to render a static about page
 def about(request):
@@ -77,7 +98,7 @@ def registration(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, 'djangoapp/registration.html')
-
+    
 
 # Create a `get_dealer_details` view to render the reviews of a dealer
 # def get_dealer_details(request, dealer_id):

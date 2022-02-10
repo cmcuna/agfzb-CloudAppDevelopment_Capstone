@@ -33,7 +33,8 @@ ALLOWED_HOSTS = ["localhost", '127.0.0.1', 'yolo.us-south.cf.appdomain.cloud']
 # Application definition
 
 INSTALLED_APPS = [
-    'djangoapp.apps.DjangoappConfig',
+    'djangoapp',  #this is the same as installing an app named "djangoapp.apps.DjangoappConfig" into our INSTALLED_APPS list
+    #'djangoapp.apps.DjangoappConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -84,6 +85,7 @@ DATABASES = {
     }
 }
 
+AUTH_USER_MODEL = 'djangoapp.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
