@@ -26,6 +26,15 @@ urlpatterns = [
     
     # path for financing
     path(route='financing', view=views.financing, name='financing'),
+    
+    # path for dealer data (testing data return, should be deleted later...)
+    path(route='dealerdata', view=views.get_cloudDealers, name='dealerdata'),
+
+    # path for dealer data (testing data return, should be deleted later...)
+    path(route='dealerdataID', view=views.get_cloudDealerbyID, name='dealerdataID'),
+
+    # path for dealer data (testing data return, should be deleted later...)
+    # path(route='dealer/<int:dealerID>/', view=views.get_dealer_reviews, name='dealerdetails'),
 
     # path for logout  
 

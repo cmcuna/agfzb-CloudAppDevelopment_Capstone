@@ -19,22 +19,32 @@ async function cloudant(){
         })
         console.log("successfully created cloudant conn")
 
+        let res="reviews"
+
+        /* let's create a database */
+        console.log("creating cloudant database...")
+        const db = await cloudant.db.create(res)
+
+        /* let's delete a database */
+        // console.log("deleting cloudant database...")
+        // await cloudant.db.destroy(res)
+
         /* let's get all databases by calling cloudant object*/
         console.log("getting cloudant databases...")
         let allDB = await cloudant.db.list()
         console.log("cloudant databases:", allDB)
 
-        /* set database we will be using*/
-        console.log("setting the database we are going to use...")
-        const db = cloudant.db.use('reviews')
-        console.log("using database:", db.config.db)
+        // /* set database we will be using*/
+        // console.log("setting the database we are going to use...")
+        // const db = cloudant.db.use('reviews')
+        // console.log("using database:", db.config.db)
 
-        let res=""
+        // let res=""
 
-        /* get data from database*/
-        console.log("get data from database...")
-        res = await db.list({include_docs:true})
-        console.log(res)
+        // /* get data from database*/
+        // console.log("get data from database...")
+        // res = await db.list({include_docs:true})
+        // console.log(res)
 
     }catch(error){
         console.error('Error:', error);

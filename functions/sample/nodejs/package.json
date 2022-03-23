@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "testing",
   "scripts": {
-    "nodemon": "nodemon ./testing.js"
+    "nodemon": "nodemon ./pullCloudantDBData.js"
   },
   "keywords": [],
   "author": "cmcuna",

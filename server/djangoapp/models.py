@@ -70,7 +70,35 @@ class CarModel(models.Model):
     def __str__(self):
         return f"Name: {self.nameCarModel}, Type: {self.carType}, Year: {self.yearCarModel}"
 
-# <HINT> Create a plain Python class `CarDealer` to hold dealer data
-
+# <HINT> Create a plain Python class `CarDealer` to represent and hold dealer data returned form 'dealer-get' service on IBM cloud
+class CarDealer:
+    def __init__(self, address, city, full_name, id, lat, long, short_name, st, zip):
+        self.address = address #dealer address
+        self.city = city #dealer city
+        self.full_name = full_name #dealer full name
+        self.id = id #dealer id
+        self.lat = lat #location lat
+        self.long = long #location long
+        self.short_name =  short_name #dealer short name
+        self.st = st #dealer state
+        self.zip = zip #dealer zip
+        
+    def __str__(self):
+        return "Dealer name: " + self.full_name
 
 # <HINT> Create a plain Python class `DealerReview` to hold review data
+class DealerReview:
+    def __init__(self, dealership, name, purchase, review, purchase_date, car_make, car_model, car_year, sentiment, id):
+        self.dealership = dealership 
+        self.name = name
+        self.purchase = purchase
+        self.review = review
+        self.purchase_date = purchase_date
+        self.car_make = car_make
+        self.car_model =  car_model
+        self.car_year = car_year
+        self.sentiment = sentiment #this value is will be determined by IBM Watson
+        self.id = id
+        
+    def __str__(self):
+        return "Dealer: " + self.name + " Dealer Review: " + self.review

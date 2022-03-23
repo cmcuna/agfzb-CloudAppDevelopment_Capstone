@@ -2,19 +2,21 @@
 
 {% block content%}
 
-<p>Main page</p>
+<p>Display Dealer Data</p>
 
 <!-- which 'message' is the referring to? Answer: error message from 'exception' case 'try' in the linked view -->
 {% if message %}
     <div>{{ message }}</div>
 {% endif %}
 
-<ul>
-    {% for carmake in carmakelist %}
-        <li>{{ carmake }}</li>
+<!-- <ul>
+    {% for dealer in dealerdata %}
+        <li>{{ dealer }}</li>
     {% empty %}
         <li>No Comments.</li>
     {% endfor %}
-</ul>
+</ul> -->
+
+<ul> {{dealerdata}} </ul>
 
 {% endblock %}

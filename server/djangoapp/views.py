@@ -1,3 +1,5 @@
+from unittest import loader
+from urllib import response
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
@@ -9,14 +11,71 @@ from .models import User, CarMake, CarModel
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from django.db import IntegrityError
+from django.template.loader import get_template
 from datetime import datetime
-import logging
-import json
+import logging, json
+from .restapis import get_dealers_from_cf, get_request
+from .restapis import get_dealer_by_id, get_request_by_id
+#from .restapis import get_dealer_reviews_from_cf, get_request_review_id
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
 
 # Create your views here.
+
+def get_cloudDealers(request):
+    if request.method == "GET":
+        url ='https://9a1758aa.us-south.apigw.appdomain.cloud/api/dealership'
+        # Get dealers from the URL
+        print("Get from {} ".format(url)) #this string will print out in VScode (IDE)
+        # Call get method of requests library with URL and parameters
+        dealerships = get_dealers_from_cf(url)
+        # concat all dealer's short name
+        dealer_names = ', '.join([dealer.short_name for dealer in dealerships])
+        # Return a list of dealer short name
+        #return HttpResponse(dealer_names)#, content_type='application/json')
+
+        # Return dealers with render (in lieu of HttpResponse), HttpResponse better for data dumps without templates being rendered
+        return render(request, 'djangoapp/getdealerdata.html', {
+            'dealerdata': dealer_names
+        })
+        
+def get_cloudDealerbyID(request):
+    if request.method == "GET":
+        url ='https://9a1758aa.us-south.apigw.appdomain.cloud/api/dealership'
+        # Get dealers from the URL
+        print("Get from {} ".format(url))
+        # Call get method of requests library with URL and parameters
+        dealerID = 1
+        dealerships = get_dealer_by_id(url, dealerID)
+        # concat all dealer's short name
+        dealer_name_by_id = ', '.join([dealer.full_name for dealer in dealerships])
+        # Return a list of dealer short name
+        #return HttpResponse(dealer_names)#, content_type='application/json')
+
+        # Return dealers with render (in lieu of HttpResponse), HttpResponse better for data dumps without templates being rendered
+        return render(request, 'djangoapp/getdealerdatabyID.html', {
+            'dealerdata': dealer_name_by_id
+        })
+
+        
+""" def get_dealer_reviews(request, dealerID):
+    if request.method == "GET":
+        url ='https://9a1758aa.us-south.apigw.appdomain.cloud/reviews'
+        # Get dealers from the URL
+        print("Get from {} ".format(url))
+        # Call get method of requests library with URL and parameters
+        dealerID = 1
+        dealerships = get_dealer_reviews_from_cf(url, dealerID)
+        # concat all dealer's short name
+        dealer_review_by_id = ', '.join([dealer.name for dealer in dealerships])
+        # Return a list of dealer short name
+        #return HttpResponse(dealer_names)#, content_type='application/json')
+
+        # Return dealers with render (in lieu of HttpResponse), HttpResponse better for data dumps without templates being rendered
+        return render(request, 'djangoapp/getdealerreview.html', {
+            'dealerdata': dealer_review_by_id
+        }) """
 
 # Update the `get_dealerships` view to render the index page with a list of dealerships
 def get_dealerships(request):
@@ -36,12 +95,12 @@ def get_dealerships(request):
                 "message": "Error creating car make entry."
             })
         return HttpResponseRedirect(reverse("index"))
-    else:
+    else: #this is GET request
         return render(request, 'djangoapp/index.html', {
-            #context
+            #context    
             "carmakelist": carmakelist
         })
-        #return render(request, 'djangoapp/registration.html')
+        
         
 
 # Create an `about` view to render a static about page
