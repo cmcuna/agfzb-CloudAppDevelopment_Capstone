@@ -34,7 +34,7 @@ urlpatterns = [
     path(route='dealerdataID', view=views.get_cloudDealerbyID, name='dealerdataID'),
 
     # path for dealer data (testing data return, should be deleted later...)
-    # path(route='dealer/<int:dealerID>/', view=views.get_dealer_reviews, name='dealerdetails'),
+    path(route='dealerReviewID', view=views.get_dealer_reviews, name='dealerdetails'),
 
     # path for logout  
 

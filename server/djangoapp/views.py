@@ -16,7 +16,7 @@ from datetime import datetime
 import logging, json
 from .restapis import get_dealers_from_cf, get_request
 from .restapis import get_dealer_by_id, get_request_by_id
-#from .restapis import get_dealer_reviews_from_cf, get_request_review_id
+from .restapis import get_dealer_reviews_from_cf, get_request_review_id
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -58,24 +58,30 @@ def get_cloudDealerbyID(request):
             'dealerdata': dealer_name_by_id
         })
 
-        
-""" def get_dealer_reviews(request, dealerID):
+def get_dealer_reviews(request):
+    
     if request.method == "GET":
-        url ='https://9a1758aa.us-south.apigw.appdomain.cloud/reviews'
+        url ='https://9a1758aa.us-south.apigw.appdomain.cloud/reviews/reviews'
         # Get dealers from the URL
         print("Get from {} ".format(url))
         # Call get method of requests library with URL and parameters
-        dealerID = 1
+        dealerID = 2
         dealerships = get_dealer_reviews_from_cf(url, dealerID)
         # concat all dealer's short name
-        dealer_review_by_id = ', '.join([dealer.name for dealer in dealerships])
+        #dealer_review_by_id = ', '.join([dealer.name for dealer in dealerships])
+        for dealer in dealerships:
+            #create list for next iteration, maybe have multi reviews for single dealer?
+            review = dealer.review
+            sentiment = dealer.sentiment
+        #dealer_review_by_id = sentiment
+        dealer_review_by_id = "Review: '" + review + "'" + "\nSentiment of review: " + sentiment
         # Return a list of dealer short name
         #return HttpResponse(dealer_names)#, content_type='application/json')
 
         # Return dealers with render (in lieu of HttpResponse), HttpResponse better for data dumps without templates being rendered
         return render(request, 'djangoapp/getdealerreview.html', {
             'dealerdata': dealer_review_by_id
-        }) """
+        })
 
 # Update the `get_dealerships` view to render the index page with a list of dealerships
 def get_dealerships(request):

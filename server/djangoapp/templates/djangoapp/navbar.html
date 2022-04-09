@@ -22,7 +22,9 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'djangoapp:dealerdataID' %}">DealerByID</a>
         </li>
-
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'djangoapp:dealerdetails' %}">DealerReviewByID</a>
+        </li>
           {% if request.user.is_authenticated %}
             <li class="nav-item">
               <a class="nav-link" href="#">Signed in as {{request.user}}</a>
