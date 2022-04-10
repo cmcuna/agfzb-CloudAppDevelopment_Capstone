@@ -17,6 +17,7 @@ import logging, json
 from .restapis import get_dealers_from_cf, get_request
 from .restapis import get_dealer_by_id, get_request_by_id
 from .restapis import get_dealer_reviews_from_cf, get_request_review_id
+from .restapis import post_request
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -24,20 +25,22 @@ logger = logging.getLogger(__name__)
 # Create your views here.
 
 def get_cloudDealers(request):
+    context = {}
     if request.method == "GET":
         url ='https://9a1758aa.us-south.apigw.appdomain.cloud/api/dealership'
         # Get dealers from the URL
         print("Get from {} ".format(url)) #this string will print out in VScode (IDE)
         # Call get method of requests library with URL and parameters
         dealerships = get_dealers_from_cf(url)
+        context = dealerships
         # concat all dealer's short name
-        dealer_names = ', '.join([dealer.short_name for dealer in dealerships])
+        #dealer_names = ', '.join([dealer.short_name for dealer in dealerships])
         # Return a list of dealer short name
         #return HttpResponse(dealer_names)#, content_type='application/json')
 
         # Return dealers with render (in lieu of HttpResponse), HttpResponse better for data dumps without templates being rendered
         return render(request, 'djangoapp/getdealerdata.html', {
-            'dealerdata': dealer_names
+            'dealerdata': context
         })
         
 def get_cloudDealerbyID(request):
@@ -61,6 +64,7 @@ def get_cloudDealerbyID(request):
 def get_dealer_reviews(request):
     
     if request.method == "GET":
+        #url ='https://9a1758aa.us-south.apigw.appdomain.cloud/reviews/reviews'
         url ='https://9a1758aa.us-south.apigw.appdomain.cloud/reviews/reviews'
         # Get dealers from the URL
         print("Get from {} ".format(url))
@@ -81,6 +85,39 @@ def get_dealer_reviews(request):
         # Return dealers with render (in lieu of HttpResponse), HttpResponse better for data dumps without templates being rendered
         return render(request, 'djangoapp/getdealerreview.html', {
             'dealerdata': dealer_review_by_id
+        })
+        
+# Create an 'add_review' django view to post a dealer review: verify user auth for post and create dict object for reviews to append
+def add_review(request):
+    #create a reviews dictionary for appending and add attributes defined in reviews object
+    review = {}
+    review["id"]=51
+    review["name"]="John Bass Doe"
+    review["dealership"]=15
+    review["review"]="Great service, great vehicle, great experience."
+    review["purchase"]=True
+    review["purchase_date"]="04/09/2022"
+    review["car_make"]="Toyota"
+    review["car_model"]="4Runner"
+    review["car_year"]=2021
+    #review["time"]=datetime.utcnow().isoformat() #time of review POST
+    #create a payload dictionary and assign one key called review. 'review' will be the appended dictionary variable above
+    json_payload = {}
+    json_payload["review"] = review
+
+    print("Json Payload:", json_payload)
+    
+    dealerID = review["id"]
+    print("Post Dealer ID: ", dealerID)
+    
+    if request.method=="GET": #this should be POST
+        #Same API for GET/POST. Both are within the 'Review' APIs
+        url ='https://9a1758aa.us-south.apigw.appdomain.cloud/reviews/reviews'
+        return_post = post_request(url, review)
+        
+        # Return dealers with render (in lieu of HttpResponse), HttpResponse better for data dumps without templates being rendered
+        return render(request, 'djangoapp/postdealerreview.html', {
+            'dealerdata': return_post
         })
 
 # Update the `get_dealerships` view to render the index page with a list of dealerships

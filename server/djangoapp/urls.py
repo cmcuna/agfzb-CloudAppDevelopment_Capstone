@@ -35,6 +35,9 @@ urlpatterns = [
 
     # path for dealer data (testing data return, should be deleted later...)
     path(route='dealerReviewID', view=views.get_dealer_reviews, name='dealerdetails'),
+    
+    # path for dealer review post (testing data return, should be deleted later...)
+    path(route='dealerreviewpost', view=views.add_review, name='dealerreviewpost'),
 
     # path for logout  
 

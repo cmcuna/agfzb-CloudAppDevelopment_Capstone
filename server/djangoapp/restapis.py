@@ -219,3 +219,32 @@ def get_dealer_reviews_from_cf(url, dealerID):
         results.append(dealer_obj)
 
     return results
+
+
+
+
+
+
+
+
+
+
+
+# Create a `post_request` to make HTTP POST requests
+# def post_request(url, json_payload, **kwargs):
+# e.g., request.post(url, params=kwargs, json=json_payload)
+def post_request(url, json_payload):
+    print("Get from {} ".format(url))
+    try:
+        # Call get method of requests library with URL and parameters; http query
+        response = requests.post(url,  data=json_payload)
+        #print(json.loads(response.text))
+    except:
+        # If any errors occur
+        print("Newtork exception occured")
+    json_data = json.loads(response.text)
+    print(json.dumps(json_data,indent=2))
+    status_code = response.status_code
+    print("With status {}: ".format(status_code))
+    json_data = json.loads(response.text)
+    return json_data

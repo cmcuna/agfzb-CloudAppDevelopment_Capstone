@@ -1,0 +1,22 @@
+{%extends 'djangoapp/layout.html'%}
+
+{% block content%}
+
+<p>Display New Dealer Review for Dealer by Dealer's ID</p>
+
+<!-- which 'message' is the referring to? Answer: error message from 'exception' case 'try' in the linked view -->
+{% if message %}
+    <div>{{ message }}</div>
+{% endif %}
+
+<!-- <ul>
+    {% for dealer in dealerdata %}
+        <li>Dealer ID: {{ dealer.id }}, Dealership No.: {{ dealer.dealership }}, Reviewer: {{dealer.name}}, Review: {{dealer.Review}} </li>
+    {% empty %}
+        <li>No Comments.</li>
+    {% endfor %}
+</ul>
+ -->
+<ul> {{dealerdata}} </ul>
+
+{% endblock %}
